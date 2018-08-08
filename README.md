@@ -2,20 +2,20 @@ CGSDK
 ==== 
 推广SDK
 
-# 简介
+## 简介
 市场推广渠道的常用形式为广告投放，作为付费性推广带来的用户质量和数量一般都会比运营推广渠道效果更好，是推广渠道中的主要形式。
 
 # 功能简介
 使用CG平台的SDK，推广过程中用户直接转化为CG平台的用户。整个导量转化的过程都是可控的，是平台推广的主要形式之一。
 
-# 集成CGSDK SDK
-## 集成
+## 集成CGSDK SDK
+### 集成
 将下面代码加入html中
 ```javascript
 <script src="https://cdn.chipsgames.com/cgsdk/cgsdk.min_1.0.0.js" type="text/javascript" />
 ```
-## 接口说明
-### 初始化
+### 接口说明
+#### 初始化
 ```javascript
 wing.init();
 ```
@@ -37,7 +37,7 @@ wing.init({
     debug: false,
 });
 ``` 
-## 登录
+#### 登录
 ```javascript
 wing.user.login();
 ```
