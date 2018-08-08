@@ -12,7 +12,6 @@ CGSDK
 ```javascript
 <script src="https://cdn.chipsgames.com/cgsdk/cgsdk.min_1.0.0.js" type="text/javascript" />
 ```
-<br>
 ## 接口说明
 ### 初始化
 ```javascript
