@@ -36,15 +36,13 @@ wing.user.login();
 说明：该方法分为不弹出窗口（明确指定了platform）和弹出窗口方式（platform不传值则弹出登录方式选择框）
 <br>
 参数说明：
-## Requirements
-
-| AFNetworking Version | Minimum iOS Target  | Minimum macOS Target  | Minimum watchOS Target  | Minimum tvOS Target  |                                   Notes                                   |
+| 参数名 | 类型  | 必填  | 说明  | Minimum tvOS Target  | 
 |:--------------------:|:---------------------------:|:----------------------------:|:----------------------------:|:----------------------------:|:-------------------------------------------------------------------------:|
-| 3.x | iOS 7 | OS X 10.9 | watchOS 2.0 | tvOS 9.0 | Xcode 7+ is required. `NSURLConnectionOperation` support has been removed. |
-| 2.6 -> 2.6.3 | iOS 7 | OS X 10.9 | watchOS 2.0 | n/a | Xcode 7+ is required. |
-| 2.0 -> 2.5.4 | iOS 6 | OS X 10.8 | n/a | n/a | Xcode 5+ is required. `NSURLSession` subspec requires iOS 7 or OS X 10.9. |
-| 1.x | iOS 5 | Mac OS X 10.7 | n/a | n/a |
-| 0.10.x | iOS 4 | Mac OS X 10.6 | n/a | n/a |
+| 3.x | iOS 7 | OS X 10.9 | watchOS 2.0 | tvOS 9.0 |
+| 2.6 -> 2.6.3 | iOS 7 | OS X 10.9 | watchOS 2.0 | n/a |
+| 2.0 -> 2.5.4 | iOS 6 | OS X 10.8 | n/a | n/a |
+| 1.x | iOS 5 | Mac OS X 10.7 | n/a |
+| 0.10.x | iOS 4 | Mac OS X 10.6 | n/a |
 <br>
 示例：
 ```javascript
