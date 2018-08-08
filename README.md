@@ -28,8 +28,7 @@ wing.init({
     platform: 'html5',
     debug: true,
 });
-```
-<br> 
+``` 
 ## 登录
 ```javascript
 wing.user.login();
