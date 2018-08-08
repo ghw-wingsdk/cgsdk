@@ -32,7 +32,7 @@ wing.init();
 wing.init({
     sdkType: 'html5',
     platform: 'html5',
-    debug: true,
+    debug: false,
 });
 ``` 
 ## 登录
@@ -46,9 +46,9 @@ wing.user.login();
 | 参数名 | 类型  | 必填  | 说明  |
 |:----------:|:----------:|:---------:|:---------:|
 | platform | string  | N  | ‘GUEST’、 ‘GOOGLE’、‘FACEBOOK’ |
-| 参数名 | 类型  | 必填  | 说明  |
-| 参数名 | 类型  | 必填  | 说明  |
-| 参数名 | 类型  | 必填  | 说明  |
+| success | Object  | N  | 成功回调方法  |
+| fail | Object  | N  | 失败回调方法  |
+| cancel | Object  | N  | 取消回调方法  |
 
 示例：
 ```javascript
