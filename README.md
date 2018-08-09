@@ -25,8 +25,6 @@ wing.init();
 
 | 参数名 | 类型  | 必填  | 说明  |
 |:----------:|:----------:|:---------:|:---------:|
-| sdkType | string  | Y  | sdk类型: html5  |
-| platform | string  | Y  | 使用平台: html5  |
 | debug | boolean  | Y  | debug模式  |
 
 示例：
