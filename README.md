@@ -30,8 +30,6 @@ wing.init();
 示例：
 ```javascript
 wing.init({
-    sdkType: 'html5',
-    platform: 'html5',
     debug: false,
 });
 ``` 
