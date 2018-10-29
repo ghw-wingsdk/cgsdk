@@ -12,7 +12,7 @@ CGSDK
 ### 集成
 将下面代码加入html中
 ```javascript
-<script src="https://cdn.chipsgames.com/cgsdk/cgsdk.min_1.0.0.js" type="text/javascript" />
+<script src="https://cdn.chipsgames.com/cgsdk/cgsdk.min_1.0.1.js" type="text/javascript" />
 ```
 ### 接口说明
 #### 初始化
