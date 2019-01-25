@@ -1,4 +1,4 @@
-CGSDK
+CG LDP SDK
 ==== 
 推广SDK
 
@@ -12,7 +12,7 @@ CGSDK
 ### 集成
 将下面代码加入html中
 ```javascript
-<script src="https://cdn.chipsgames.com/cgsdk/cgsdk.min_1.0.1.js" type="text/javascript" />
+<script src="https://cdn.chipsgames.com/cgsdk/cgsdk.min_2.0.0.js" type="text/javascript"></script>
 ```
 ### 接口说明
 #### 初始化
@@ -25,14 +25,81 @@ wing.init();
 
 | 参数名 | 类型  | 必填  | 说明  |
 |:----------:|:----------:|:---------:|:---------:|
+| sdkType | string  | Y  | sdk类型: html5  |
+| platform | string  | Y  | 使用平台: html5  |
 | debug | boolean  | Y  | debug模式  |
 
 示例：
 ```javascript
 wing.init({
+    sdkType: 'html5',
+    platform: 'html5',
     debug: false,
 });
+
 ``` 
+#### 注册
+```javascript
+wing.user.register();
+```
+参数说明：
+
+| 参数名 | 类型  | 必填  | 说明  |
+|:----------:|:----------:|:---------:|:---------:|
+| email | string  | Y  | 注册email |
+| passWord | string  | Y  | 注册密码 |
+| success | Object  | N  | 成功回调方法  |
+| fail | Object  | N  | 失败回调方法  |
+| cancel | Object  | N  | 取消回调方法  |
+
+示例：
+```javascript
+wing.user.register({
+    email:’aaa@aaa.com’,
+    passWord:’123456’,
+    success: function(data){ 
+        console.log("注册成功");
+    },
+    fail: function(){
+        console.log("注册失败");
+    },
+    cancel: function(){
+        console.log("注册取消")
+    }
+});
+```
+
+#### 获取隐私政策
+```javascript
+wing.user.getPrivacyUrl();
+```
+参数说明：
+
+| 参数名 | 类型  | 必填  | 说明  |
+|:----------:|:----------:|:---------:|:---------:|
+| success | Object  | N  | 成功回调方法  |
+| fail | Object  | N  | 失败回调方法  |
+| cancel | Object  | N  | 取消回调方法  |
+
+示例：
+```javascript
+wing.user.getPrivacyUrl({
+    success: function(data){ 
+        console.log("获取Privacy成功");
+        privacyUrl = data;
+
+        window.open(privacyUrl, 'newwindow', 'width=400, height=600, top=' + iTop + ',left=' + iLeft + ', toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+    },
+    fail: function(){
+        console.log("获取Privacy失败");
+    },
+    cancel: function(){
+        console.log("获取Privacy取消")
+    }
+});
+
+```
+
 #### 登录
 ```javascript
 wing.user.login();
