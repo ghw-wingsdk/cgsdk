@@ -15,6 +15,8 @@ CG LDP SDK
 <script src="https://cdn.chipsgames.com/cgsdk/cgsdk.min_2.0.0.js" type="text/javascript"></script>
 ```
 ### 接口说明
+[1.初始化](#1-初始化)
+
 #### 1. 初始化
 ```javascript
 wing.init();
