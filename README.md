@@ -15,7 +15,7 @@ CG LDP SDK
 <script src="https://cdn.chipsgames.com/cgsdk/cgsdk.min_2.0.0.js" type="text/javascript"></script>
 ```
 ### 接口说明
-#### 初始化
+#### 1. 初始化
 ```javascript
 wing.init();
 ```
@@ -38,7 +38,7 @@ wing.init({
 });
 
 ``` 
-#### 注册
+#### 2. 注册
 ```javascript
 wing.user.register();
 ```
@@ -69,7 +69,7 @@ wing.user.register({
 });
 ```
 
-#### 获取隐私政策
+#### 3. 获取隐私政策
 ```javascript
 wing.user.getPrivacyUrl();
 ```
@@ -100,7 +100,7 @@ wing.user.getPrivacyUrl({
 
 ```
 
-#### 登录
+#### 4. 登录
 ```javascript
 wing.user.login();
 ```
