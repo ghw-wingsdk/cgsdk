@@ -30,16 +30,12 @@ wing.init();
 
 | 参数名 | 类型  | 必填  | 说明  |
 |:----------:|:----------:|:---------:|:---------:|
-| sdkType | string  | Y  | sdk类型: html5  |
-| platform | string  | Y  | 使用平台: html5  |
 | debug | boolean  | Y  | debug模式  |
 
 示例：
 ```javascript
 wing.init({
-    sdkType: 'html5',
-    platform: 'html5',
-    debug: false,
+    debug: false
 });
 
 ``` 
@@ -56,6 +52,24 @@ wing.user.register();
 | success | Object  | N  | 成功回调方法  |
 | fail | Object  | N  | 失败回调方法  |
 | cancel | Object  | N  | 取消回调方法  |
+
+成功返回结果参数说明：
+| 参数名 | 类型  | 说明  |
+|:----------:|:----------:|:---------:|
+| userId | long  | 用户Id |
+| userStatus | int  | 0-封号，1-解封 |
+| sdkToken | string  | 在线token，登录成功的时候SDK服务器通过h5服务端返回，如果传入的token未过期，而且userId没变直接返回原来的token，否则返回更新后的token（使用下面方式加密，客户端使用反方式解密：AES(原始sdkToken), 密码为clientId）  |
+| h5Token | string  | H5服务端的token，用来维持h5客户端的会话。登录成功后的请求接口部分要求携带此参数，如果此h5Token过期则要求重新登录。（使用下面方式加密，客户端使用反方式解密：AES(原始h5Token), 密码为clientId+userId）  |
+| puserId | string  | 用户在第三方平台的Id，访客登录返回NULL  |
+| platform | string  | 平台标识 FACEBOOK、  GOOGLE、GUEST等 |
+| userName | string  | 用户名称 |
+| userIconUrl | string  | 用户头像地址  |
+
+失败返回结果参数说明：
+| 参数名 | 类型  | 说明  |
+|:----------:|:----------:|:---------:|
+| code | int  | 状态码【(附录1)](#5-附录1) |
+| message | string  | 结果描述 |
 
 示例：
 ```javascript
@@ -85,6 +99,17 @@ wing.user.getPrivacyUrl();
 | success | Object  | N  | 成功回调方法  |
 | fail | Object  | N  | 失败回调方法  |
 | cancel | Object  | N  | 取消回调方法  |
+
+成功返回结果参数说明：
+| 参数名 | 类型  | 说明  |
+|:----------:|:----------:|:---------:|
+| result | string  | 隐私协议Url地址 |
+
+失败返回结果参数说明：
+| 参数名 | 类型  | 说明  |
+|:----------:|:----------:|:---------:|
+| code | int  | 状态码【(附录1)](#5-附录1) |
+| message | string  | 结果描述 |
 
 示例：
 ```javascript
@@ -120,6 +145,26 @@ wing.user.login();
 | fail | Object  | N  | 失败回调方法  |
 | cancel | Object  | N  | 取消回调方法  |
 
+成功返回结果参数说明：
+| 参数名 | 类型  | 说明  |
+|:----------:|:----------:|:---------:|
+| userId | long  | 用户Id |
+| userStatus | int  | 0-封号，1-解封 |
+| sdkToken | string  | 在线token，登录成功的时候SDK服务器通过h5服务端返回，如果传入的token未过期，而且userId没变直接返回原来的token，否则返回更新后的token（使用下面方式加密，客户端使用反方式解密：AES(原始sdkToken), 密码为clientId）  |
+| h5Token | string  | H5服务端的token，用来维持h5客户端的会话。登录成功后的请求接口部分要求携带此参数，如果此h5Token过期则要求重新登录。（使用下面方式加密，客户端使用反方式解密：AES(原始h5Token), 密码为clientId+userId）  |
+| puserId | string  | 用户在第三方平台的Id，访客登录返回NULL  |
+| platform | string  | 平台标识 FACEBOOK、  GOOGLE、GUEST等 |
+| userName | string  | 用户名称 |
+| userIconUrl | string  | 用户头像地址  |
+| privacyUrl | string  | 隐私政策链接，此值不为空时需要弹隐私窗口，为空或者没有此值则不需要弹  |
+| isFirstLogin | int  | 是否是第一次登录，0-否，1-是  |
+
+失败返回结果参数说明：
+| 参数名 | 类型  | 说明  |
+|:----------:|:----------:|:---------:|
+| code | int  | 状态码【(附录1)](#5-附录1) |
+| message | string  | 结果描述 |
+
 示例：
 ```javascript
 wing.user.login({
@@ -135,3 +180,16 @@ wing.user.login({
     }
 });
 ```
+
+#### 5. 附录1
+返回状态码说明
+| 状态码code | 说明  |
+|:----------:|:---------:|
+| 400 | 错误请求：请求参数有错，头信息有误等，导致请求无法被正确理解 |
+| 401 | 请求未认证：访问受限资源是缺少认证信息，或者认证未通过 |
+| 500 | 服务器内部故障 |
+| 4010 | body数据必须为json格式 |
+| 4011 | 缺少字段或有字段的值为null |
+| 4012 | 请求超时，重新请求 |
+| 4013 | 找不到服务，重新请求 |
+| 4054 | 已存在邮箱（注册功能） |
