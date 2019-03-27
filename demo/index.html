@@ -7,7 +7,7 @@
     <title>CG SDK Demo</title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <script src="https://cdn.chipsgames.com/cgsdk/cgsdk.min_2.0.0.js" type="text/javascript"></script>
+    <script src="https://cdn.chipsgames.com/cgsdk/cgsdk.min_2.0.1.js" type="text/javascript"></script>
     <script src="js/demo.js" type="text/javascript" ></script>
 
 </head>
@@ -18,28 +18,62 @@
     </div>
 
     <div style="text-align:center; margin:0 auto; width: 80%; max-width: 400px; padding-top: 20px">
-        <div style="padding-top: 20px">
-            <div style="width: 100%;text-align:left;">Email</div>
-            <input type="email" style="border: #5abfdd 1px solid;width: 100%;" id="email" onblur="checkEmail(this)" />
+        <div>
+            <input type="button" id="tabLogin" class="btn btn-info" style="width:48%" onclick="changeTab(this)" value="Sign in" disabled="disabled" />
+            <input type="button" id="tabRegister" class="btn btn-info" style="width:48%" onclick="changeTab(this)" value="Sign up" />
         </div>
 
-        <div style="padding-top: 20px">
-            <div style="width: 100%;text-align:left;">PassWord</div>
-            <input type="password" style="border: #5abfdd 1px solid;width: 100%;" id="passWord" onblur="checkPsw(this)" />
+        <div id="divLogin">
+            <div style="padding-top: 20px">
+                <div style="width: 100%;text-align:left;">Email</div>
+                <input type="email" style="border: #5abfdd 1px solid;width: 100%;" id="loginEmail" onblur="checkEmail(this)" />
+            </div>
+
+            <div style="padding-top: 20px">
+                <div style="width: 100%;text-align:left;">PassWord</div>
+                <input type="password" style="border: #5abfdd 1px solid;width: 100%;" id="loginPassWord" onblur="checkPsw(this)" />
+            </div>
+            
+            <div id="divValidateImg" style="padding-top: 20px;display: none;">
+                <div style="width: 100%;text-align:left;">Verification Code</div>
+                <input type="text" style="border: #5abfdd 1px solid;width: 69%;" id="loginValidate" onblur="checkVerificationCode(this)" />
+                <img id="imgValidate" src="" style="border: #5abfdd 1px solid;width: 30%;height: 100%" onclick="getValidateImg()" />
+            </div>
+
+            <div style="padding-top: 20px;text-align:left;">
+                <input type="checkbox" id="LoginSelectPrivacy" checked="checked" />
+                <span> I have read and agreed to The <a href='javascript:openPrivacy()'>Term of Service and Privacy Policy</a></span>
+            </div>
+
+            <div style="padding-top: 20px;">
+                <input type="button" class="btn btn-info btn-block" onclick="login('CHIPSGAMES')" value="Login" />
+            </div>
         </div>
 
-        <div style="padding-top: 20px">
-            <div style="width: 100%;text-align:left;">Confirm passWord</div>
-            <input type="password" style="border: #5abfdd 1px solid;width: 100%;" id="confirmPassWord" onblur="checkPsw(this)" />
-        </div>
+        <div id="divRegister" style="display: none;">
+            <div style="padding-top: 20px">
+                <div style="width: 100%;text-align:left;">Email</div>
+                <input type="email" style="border: #5abfdd 1px solid;width: 100%;" id="email" onblur="checkEmail(this)" />
+            </div>
 
-        <div style="padding-top: 20px;text-align:left;">
-            <input type="checkbox" id="selectPrivacy" checked="checked" />
-            <span> I have read and agreed to The <a href='javascript:openPrivacy()'>Term of Service and Privacy Policy</a></span>
-        </div>
+            <div style="padding-top: 20px">
+                <div style="width: 100%;text-align:left;">PassWord</div>
+                <input type="password" style="border: #5abfdd 1px solid;width: 100%;" id="passWord" onblur="checkPsw(this)" />
+            </div>
 
-        <div style="padding-top: 20px;">
-            <input type="button" class="btn btn-info btn-block" onclick="register()" value="Register" />
+            <div style="padding-top: 20px">
+                <div style="width: 100%;text-align:left;">Confirm passWord</div>
+                <input type="password" style="border: #5abfdd 1px solid;width: 100%;" id="confirmPassWord" onblur="checkPsw(this)" />
+            </div>
+
+            <div style="padding-top: 20px;text-align:left;">
+                <input type="checkbox" id="selectPrivacy" checked="checked" />
+                <span> I have read and agreed to The <a href='javascript:openPrivacy()'>Term of Service and Privacy Policy</a></span>
+            </div>
+
+            <div style="padding-top: 20px;">
+                <input type="button" class="btn btn-info btn-block" onclick="register()" value="Register" />
+            </div>
         </div>
 
         <div style="padding-top: 20px;">

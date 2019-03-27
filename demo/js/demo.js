@@ -3,6 +3,28 @@ wing.init({
     debug: true,
 });
 
+function changeTab(input) {
+    var tabLogin = document.getElementById("tabLogin");
+    var divLogin = document.getElementById("divLogin");
+    var tabRegister = document.getElementById("tabRegister");
+    var divRegister = document.getElementById("divRegister");
+
+    if (input == tabLogin) {
+        tabLogin.disabled="disabled";
+        divLogin.style.display="block";
+
+        tabRegister.disabled=null;
+        divRegister.style.display="none";
+    } else if (input == tabRegister) {
+        tabLogin.disabled=null;
+        divLogin.style.display="none";
+
+        tabRegister.disabled="disabled";
+        divRegister.style.display="block";
+    }
+
+}
+
 // 校验Email
 function checkEmail(emailInput) {
     var validate = true;
@@ -33,7 +55,7 @@ function checkPsw(pswInput) {
 
     var id = pswInput.id;
 
-    if (id == 'passWord') {
+    if (id == 'loginPassWord' || id == 'passWord') {
         var passWord = pswInput.value;
 
         if(typeof(passWord) == 'undefined' || !passWord){
@@ -70,6 +92,17 @@ function checkPsw(pswInput) {
     return validate;
 }
 
+function checkVerificationCode(input) {
+    var validate = true;
+
+    var verificationCode = input.value;
+    if(typeof(verificationCode) == 'undefined' || !verificationCode) {
+        showErr(input.id, "This field is required.");
+        validate = false;
+    }
+    return validate;
+}
+
 // 查看协议
 var privacyUrl;
 function openPrivacy() {
@@ -101,6 +134,34 @@ function openPrivacy() {
             }
         });
     }
+}
+
+// 获取图形验证码
+function getValidateImg() {
+    var divLoading = document.getElementById("divLoading");
+    divLoading.style.display="block";
+
+    wing.user.getValidateImg({
+        success: function(data){
+            divLoading.style.display="none";
+            console.log("获取图形验证码成功");
+
+            if (data) {
+                var img = document.getElementById('imgValidate');
+                img.setAttribute( 'src', 'data:image/png;base64,' + data);
+            }
+        },
+        fail: function(error){
+            divLoading.style.display="none";
+            console.log("获取图形验证码失败");
+            alert(error.message);
+        },
+        cancel: function(){
+            divLoading.style.display="none";
+            console.log("获取图形验证码取消")
+            alert("获取图形验证码取消");
+        }
+    });
 }
 
 // 注册
@@ -155,18 +216,63 @@ function register() {
 
 //登录
 function login(platform) {
+    var email, password, verificationCode;
+    if (platform == 'CHIPSGAMES') {
+        var emailInput = document.getElementById("loginEmail");
+        if (! checkEmail(emailInput))
+            return;
+
+        email = emailInput.value;
+
+        var passWordInput = document.getElementById("loginPassWord");
+        if (! checkPsw(passWordInput))
+            return;
+
+        password = passWordInput.value;
+
+        var divValidateImg = document.getElementById("divValidateImg");
+        if (divValidateImg.style.display == "block")  {
+            var validateInput = document.getElementById("loginValidate");
+            if (! checkVerificationCode(validateInput))
+                return;
+
+            verificationCode = validateInput.value;
+        }
+    }
+
     var divLoading = document.getElementById("divLoading");
     divLoading.style.display="block";
 
     wing.user.login({
         platform: platform,
+        email:email,
+        password:password,
+        graphCode:verificationCode,
         success: function(data){
             divLoading.style.display="none";
             console.log("登录成功");
         },
-        fail: function(){
+        fail: function(error){
             divLoading.style.display="none";
             console.log("登录失败");
+
+            if (error.data != null && error.data.graphCode != null) {
+                document.getElementById('divValidateImg').style.display="block";
+
+                var img = document.getElementById('imgValidate');
+                img.setAttribute( 'src', 'data:image/png;base64,' + error.data.graphCode);
+            }
+
+            if (error.code == 4105) {
+                if (error.message == 'Email does not exist!') {
+                    showErr('loginEmail', error.message);
+                } else if (error.message == 'Password is incorrect.') {
+                    showErr('loginPassWord', error.message);
+                }
+
+            } else if (error.code == 4055) {
+                showErr('loginValidate', error.message);
+            }
         },
         cancel: function(){
             divLoading.style.display="none";

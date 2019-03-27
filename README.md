@@ -12,14 +12,15 @@ CG LDP SDK
 ### 集成
 将下面代码加入html中
 ```javascript
-<script src="https://cdn.chipsgames.com/cgsdk/cgsdk.min_2.0.0.js" type="text/javascript"></script>
+<script src="https://cdn.chipsgames.com/cgsdk/cgsdk.min_2.0.1.js" type="text/javascript"></script>
 ```
 ### 接口说明
   * [初始化](#1-初始化)
   * [注册](#2-注册)
   * [获取隐私政策](#3-获取隐私政策)
   * [登录](#4-登录)
-  * [附录1](#5-附录1)
+  * [获取图形验证码](#5-获取图形验证码)
+  * [附录1](#6-附录1)
 
 #### 1. 初始化
 ```javascript
@@ -71,7 +72,7 @@ wing.user.register();
 
 | 参数名 | 类型  | 说明  |
 |:----------:|:----------:|:---------:|
-| code | int  | 状态码[(附录1)](#5-附录1) |
+| code | int  | 状态码[(附录1)](#6-附录1) |
 | message | string  | 结果描述 |
 
 示例：
@@ -113,7 +114,7 @@ wing.user.getPrivacyUrl();
 
 | 参数名 | 类型  | 说明  |
 |:----------:|:----------:|:---------:|
-| code | int  | 状态码[(附录1)](#5-附录1) |
+| code | int  | 状态码[(附录1)](#6-附录1) |
 | message | string  | 结果描述 |
 
 示例：
@@ -145,7 +146,10 @@ wing.user.login();
 
 | 参数名 | 类型  | 必填  | 说明  |
 |:----------:|:----------:|:---------:|:---------:|
-| platform | string  | N  | ‘GUEST’、 ‘GOOGLE’、‘FACEBOOK’ |
+| platform | string  | N  | 'GUEST'、 'GOOGLE'、'FACEBOOK'、'CHIPSGAMES' |
+| email | string  | N  | 邮箱（当是CHIPSGAMES登录必填）  |
+| password | string  | N  | 密码（当是CHIPSGAMES登录必填）  |
+| graphCode | string  | N  | 验证码（当是CHIPSGAMES登录并且登录错误次数超过之后需要）  |
 | success | Object  | N  | 成功回调方法  |
 | fail | Object  | N  | 失败回调方法  |
 | cancel | Object  | N  | 取消回调方法  |
@@ -159,17 +163,18 @@ wing.user.login();
 | sdkToken | string  | 在线token，登录成功的时候SDK服务器通过h5服务端返回，如果传入的token未过期，而且userId没变直接返回原来的token，否则返回更新后的token（使用下面方式加密，客户端使用反方式解密：AES(原始sdkToken), 密码为clientId）  |
 | h5Token | string  | H5服务端的token，用来维持h5客户端的会话。登录成功后的请求接口部分要求携带此参数，如果此h5Token过期则要求重新登录。（使用下面方式加密，客户端使用反方式解密：AES(原始h5Token), 密码为clientId+userId）  |
 | puserId | string  | 用户在第三方平台的Id，访客登录返回NULL  |
-| platform | string  | 平台标识 FACEBOOK、  GOOGLE、GUEST等 |
+| platform | string  | 平台标识 FACEBOOK、GOOGLE、GUEST、CHIPSGAMES |
 | userName | string  | 用户名称 |
 | userIconUrl | string  | 用户头像地址  |
 | privacyUrl | string  | 隐私政策链接，此值不为空时需要弹隐私窗口，为空或者没有此值则不需要弹  |
+| graphCode | string  | 图形验证码，登录次数超过限制后返回  |
 | isFirstLogin | int  | 是否是第一次登录，0-否，1-是  |
 
 失败返回结果参数说明：
 
 | 参数名 | 类型  | 说明  |
 |:----------:|:----------:|:---------:|
-| code | int  | 状态码[(附录1)](#5-附录1) |
+| code | int  | 状态码[(附录1)](#6-附录1) |
 | message | string  | 结果描述 |
 
 示例：
@@ -189,7 +194,54 @@ wing.user.login({
 });
 ```
 
-#### 5. 附录1
+#### 5. 获取图形验证码
+```javascript
+wing.user.getValidateImg();
+```
+参数说明：
+
+| 参数名 | 类型  | 必填  | 说明  |
+|:----------:|:----------:|:---------:|:---------:|
+| success | Object  | N  | 成功回调方法  |
+| fail | Object  | N  | 失败回调方法  |
+| cancel | Object  | N  | 取消回调方法  |
+
+成功返回结果参数说明：
+
+| 参数名 | 类型  | 说明  |
+|:----------:|:----------:|:---------:|
+| graphCaptcha | string  | 图形验证码压缩后数据如，base64编码格式图片  |
+
+失败返回结果参数说明：
+
+| 参数名 | 类型  | 说明  |
+|:----------:|:----------:|:---------:|
+| code | int  | 状态码[(附录1)](#6-附录1) |
+| message | string  | 结果描述 |
+
+示例：
+
+```javascript
+wing.user.getValidateImg({
+    success: function(data){
+        console.log("获取图形验证码成功");
+        if (data) {
+            var img = document.getElementById('imgValidate');
+            img.setAttribute( 'src', 'data:image/png;base64,' + data);
+        }
+    },
+    fail: function(error){
+        console.log("获取图形验证码失败");
+        alert(error.message);
+    },
+    cancel: function(){
+        console.log("获取图形验证码取消")
+        alert("获取图形验证码取消");
+    }
+});
+```
+
+#### 6. 附录1
 返回状态码说明
 
 | 状态码code | 说明  |
@@ -202,3 +254,5 @@ wing.user.login({
 | 4012 | 请求超时，重新请求 |
 | 4013 | 找不到服务，重新请求 |
 | 4054 | 已存在邮箱（注册功能） |
+| 4055 | 已存在邮箱（注册功能） |
+| 4105 | 已存在邮箱（注册功能） |
